@@ -8,4 +8,6 @@ In the current setup, it is expected that you clone this repo to `/home/pi` and 
 
 You need to put an `.env` file into `/home/pi/cloudflare-ddns` that looks like `.env-example`.
 
+Run `make` to install dependecies.
+
 You can then register a cronjob executing `/home/pi/cloudflare-ddns/ddns.sh` in an interval of choice.
