@@ -16,6 +16,7 @@ def set_ip(current_ip):
 
     api_key = os.environ.get('API_KEY')
     user_email = os.environ.get('USER_EMAIL')
+    record_name = os.environ.get('RECORD_NAME')
 
     headers = {
             'X-Auth-Email': user_email,
@@ -25,7 +26,7 @@ def set_ip(current_ip):
 
     payload = {
             'type': 'A',
-            'name': 'construction-cam.greenlabs.farm',
+            'name': record_name,
             'content': current_ip
             }
     response = requests.put(url, headers=headers, data=json.dumps(payload))
