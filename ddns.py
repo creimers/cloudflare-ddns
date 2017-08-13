@@ -28,8 +28,8 @@ def set_ip(current_ip):
             'name': 'construction-cam.greenlabs.farm',
             'content': current_ip
             }
-    requests.put(url, headers=headers, data=json.dumps(payload))
-    print(requests.status_code)
+    response = requests.put(url, headers=headers, data=json.dumps(payload))
+    print(response.status_code)
 
 
 def do_ddns():
