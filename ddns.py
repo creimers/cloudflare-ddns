@@ -29,6 +29,7 @@ def set_ip(current_ip):
             'content': current_ip
             }
     requests.put(url, headers=headers, data=json.dumps(payload))
+    print(request.status_code)
 
 
 def do_ddns():
