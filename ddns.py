@@ -1,15 +1,19 @@
 import json
 import os
 import requests
+import socket
 
 
 def get_ip() -> str:
     """
     get the ip address of whoever executes the script
     """
-    url = "http://ip.42.pl/raw"
-    response = requests.get(url)
-    return str(response.text)
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip_address = s.getsockname()[0]
+    print(s.getsockname()[0])
+    s.close()
+    return str(ip_address)
 
 
 def set_ip(current_ip: str):
@@ -24,18 +28,23 @@ def set_ip(current_ip: str):
     )
 
     api_key = os.environ.get("API_KEY")
-    user_email = os.environ.get("USER_EMAIL")
     record_name = os.environ.get("RECORD_NAME")
 
     headers = {
-        "X-Auth-Email": user_email,
-        "X-Auth-Key": api_key,
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
     }
 
     payload = {"type": "A", "name": record_name, "content": current_ip}
     response = requests.put(url, headers=headers, data=json.dumps(payload))
-    print(response.status_code)
+    if response.status_code != 200:
+        print(f"Error retrieving DNS record.")
+        print(f"url={url}")
+        print(f"headers={headers}")
+        print(f"payload={payload}")
+        print(f"response.status_code={response.status_code}")
+        print(json.dumps(json.loads(response.content), indent = 2))
+        exit(1)
 
 
 def main():
